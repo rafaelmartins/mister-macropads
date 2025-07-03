@@ -29,8 +29,8 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-            go-version-file: go.mod
-            cache-dependency-path: go.sum
+            go-version-file: mister-macropads/go.mod
+            cache-dependency-path: mister-macropads/go.sum
 
       - name: Build binaries
         id: build
