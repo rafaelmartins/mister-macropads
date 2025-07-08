@@ -29,15 +29,16 @@ func (b *Backend) KeypadSetup() error {
 
 		case "hold_keys":
 			if err := b.dev.AddHandler(btn, func(bt *octokeyz.Button) error {
-				c := data.holdKeysAction.dflt
-				found := false
+				modPressed := false
 				for _, p := range b.mod {
 					if p.Pressed() {
-						found = true
+						modPressed = true
 						break
 					}
 				}
-				if found {
+
+				c := data.holdKeysAction.dflt
+				if modPressed {
 					c = data.holdKeysAction.mod
 				}
 

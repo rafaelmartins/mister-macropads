@@ -1,6 +1,7 @@
 package misterscripts
 
 import (
+	"embed"
 	"errors"
 	"fmt"
 	"os"
@@ -26,7 +27,8 @@ var (
 
 	isMister bool
 
-	app func(projectName string, args []string) error
+	app      func(projectName string, configDir string, args []string) error
+	configFS embed.FS
 )
 
 func init() {
@@ -99,6 +101,7 @@ func remountRW() error {
 	return cmd.Wait()
 }
 
-func SetMainApp(mainApp func(projectName string, args []string) error) {
+func SetMainApp(mainApp func(projectName string, configDir string, args []string) error, fs embed.FS) {
 	app = mainApp
+	configFS = fs
 }

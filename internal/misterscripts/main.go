@@ -1,6 +1,8 @@
 package misterscripts
 
 import (
+	"errors"
+	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -31,6 +33,43 @@ func mainHandler(args []string) error {
 		return err
 	}
 
+	configDir := filepath.Join("/media", "fat")
+	if !isMister {
+		cfg, err := os.Getwd()
+		if err != nil {
+			return err
+		}
+		configDir = cfg
+	}
+
+	dir, err := configFS.ReadDir(".")
+	if err != nil {
+		return err
+	}
+	for _, fn := range dir {
+		if !fn.Type().IsRegular() {
+			continue
+		}
+
+		f := filepath.Join(configDir, fn.Name())
+		if _, err := os.Stat(f); err != nil {
+			if !errors.Is(err, fs.ErrNotExist) {
+				return err
+			}
+		} else {
+			continue
+		}
+
+		src, err := configFS.ReadFile(fn.Name())
+		if err != nil {
+			return err
+		}
+
+		if err := os.WriteFile(f, src, 0666); err != nil {
+			return err
+		}
+	}
+
 	log.Printf("Starting %s %s ...", projectName, projectVersion)
-	return app(projectName, args)
+	return app(projectName, configDir, args)
 }

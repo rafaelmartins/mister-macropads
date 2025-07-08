@@ -1,24 +1,29 @@
 package main
 
 import (
+	"embed"
+	"path/filepath"
+
 	"github.com/rafaelmartins/mister-macropads/internal/backends"
 	"github.com/rafaelmartins/mister-macropads/internal/cleanup"
 	"github.com/rafaelmartins/mister-macropads/internal/config"
 	"github.com/rafaelmartins/mister-macropads/internal/misterscripts"
 )
 
+//go:embed octokeyz.ini
+var configFS embed.FS
+
 func main() {
 	defer cleanup.Cleanup()
 
-	misterscripts.SetMainApp(func(projectName string, args []string) error {
+	misterscripts.SetMainApp(func(projectName string, configDir string, args []string) error {
 		backend, err := backends.Get(projectName)
 		if err != nil {
 			return err
 		}
 		cleanup.Register(backend)
 
-		// FIXME: load configuration from the right places
-		if err := config.Load("test.ini", projectName, backend); err != nil {
+		if err := config.Load(filepath.Join(configDir, projectName+".ini"), projectName, backend); err != nil {
 			return err
 		}
 
@@ -37,7 +42,7 @@ func main() {
 
 		backend.Listen()
 		return nil
-	})
+	}, configFS)
 
 	cleanup.Check(misterscripts.Dispatch())
 }
