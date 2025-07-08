@@ -16,15 +16,17 @@ var (
 	lexe string
 	exe  string
 
-	projectName string
-	pidFile     string
+	projectName    string
+	projectVersion string
+
+	pidFile string
 
 	initd string
 	off   string
 
-	app func(projectName string, args []string) error
-
 	isMister bool
+
+	app func(projectName string, args []string) error
 )
 
 func init() {
@@ -42,6 +44,11 @@ func init() {
 	projectName = strings.TrimSuffix(filepath.Base(exe), "_on.sh")
 	pidFile = filepath.Join("/run", projectName+".pid")
 
+	projectVersion = "UNKNOWN"
+	if bi, ok := debug.ReadBuildInfo(); ok {
+		projectVersion = bi.Main.Version
+	}
+
 	off = filepath.Join(filepath.Dir(exe), projectName+"_off.sh")
 	initd = "S98" + projectName
 
@@ -57,12 +64,10 @@ func init() {
 // proper handler function.
 func Dispatch() error {
 	if len(os.Args) >= 2 && os.Args[1] == "-v" {
-		if bi, ok := debug.ReadBuildInfo(); ok {
-			fmt.Println(bi.Main.Version)
-			return nil
+		fmt.Println(projectVersion)
+		if projectVersion == "UNKNOWN" {
+			cleanup.Exit(1)
 		}
-		fmt.Println("UNKNOWN")
-		cleanup.Exit(1)
 		return nil
 	}
 
@@ -86,14 +91,14 @@ func Dispatch() error {
 	return onHandler(os.Args[1:])
 }
 
-func SetApp(fn func(projectName string, args []string) error) {
-	app = fn
-}
-
 func remountRW() error {
 	cmd := exec.Command("bash", "-c", "if mount | grep \"on / .*[(,]ro[,$]\"; then mount / -o remount,rw; fi")
 	if err := cmd.Start(); err != nil {
 		return err
 	}
 	return cmd.Wait()
+}
+
+func SetMainApp(mainApp func(projectName string, args []string) error) {
+	app = mainApp
 }

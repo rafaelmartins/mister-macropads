@@ -20,6 +20,15 @@ const (
 
 type Key uint16
 
+func (k Key) String() string {
+	for s, kk := range KeyMap {
+		if kk == k {
+			return "KEY_" + s
+		}
+	}
+	return ""
+}
+
 const (
 	KEY_ESC              Key = 1
 	KEY_1                Key = 2
@@ -150,6 +159,136 @@ const (
 	KEY_F24              Key = 194
 )
 
+var KeyMap = map[string]Key{
+	"ESC":              KEY_ESC,
+	"1":                KEY_1,
+	"2":                KEY_2,
+	"3":                KEY_3,
+	"4":                KEY_4,
+	"5":                KEY_5,
+	"6":                KEY_6,
+	"7":                KEY_7,
+	"8":                KEY_8,
+	"9":                KEY_9,
+	"0":                KEY_0,
+	"MINUS":            KEY_MINUS,
+	"EQUAL":            KEY_EQUAL,
+	"BACKSPACE":        KEY_BACKSPACE,
+	"TAB":              KEY_TAB,
+	"Q":                KEY_Q,
+	"W":                KEY_W,
+	"E":                KEY_E,
+	"R":                KEY_R,
+	"T":                KEY_T,
+	"Y":                KEY_Y,
+	"U":                KEY_U,
+	"I":                KEY_I,
+	"O":                KEY_O,
+	"P":                KEY_P,
+	"LEFTBRACE":        KEY_LEFTBRACE,
+	"RIGHTBRACE":       KEY_RIGHTBRACE,
+	"ENTER":            KEY_ENTER,
+	"LEFTCTRL":         KEY_LEFTCTRL,
+	"A":                KEY_A,
+	"S":                KEY_S,
+	"D":                KEY_D,
+	"F":                KEY_F,
+	"G":                KEY_G,
+	"H":                KEY_H,
+	"J":                KEY_J,
+	"K":                KEY_K,
+	"L":                KEY_L,
+	"SEMICOLON":        KEY_SEMICOLON,
+	"APOSTROPHE":       KEY_APOSTROPHE,
+	"GRAVE":            KEY_GRAVE,
+	"LEFTSHIFT":        KEY_LEFTSHIFT,
+	"BACKSLASH":        KEY_BACKSLASH,
+	"Z":                KEY_Z,
+	"X":                KEY_X,
+	"C":                KEY_C,
+	"V":                KEY_V,
+	"B":                KEY_B,
+	"N":                KEY_N,
+	"M":                KEY_M,
+	"COMMA":            KEY_COMMA,
+	"DOT":              KEY_DOT,
+	"SLASH":            KEY_SLASH,
+	"RIGHTSHIFT":       KEY_RIGHTSHIFT,
+	"KPASTERISK":       KEY_KPASTERISK,
+	"LEFTALT":          KEY_LEFTALT,
+	"SPACE":            KEY_SPACE,
+	"CAPSLOCK":         KEY_CAPSLOCK,
+	"F1":               KEY_F1,
+	"F2":               KEY_F2,
+	"F3":               KEY_F3,
+	"F4":               KEY_F4,
+	"F5":               KEY_F5,
+	"F6":               KEY_F6,
+	"F7":               KEY_F7,
+	"F8":               KEY_F8,
+	"F9":               KEY_F9,
+	"F10":              KEY_F10,
+	"NUMLOCK":          KEY_NUMLOCK,
+	"SCROLLLOCK":       KEY_SCROLLLOCK,
+	"KP7":              KEY_KP7,
+	"KP8":              KEY_KP8,
+	"KP9":              KEY_KP9,
+	"KPMINUS":          KEY_KPMINUS,
+	"KP4":              KEY_KP4,
+	"KP5":              KEY_KP5,
+	"KP6":              KEY_KP6,
+	"KPPLUS":           KEY_KPPLUS,
+	"KP1":              KEY_KP1,
+	"KP2":              KEY_KP2,
+	"KP3":              KEY_KP3,
+	"KP0":              KEY_KP0,
+	"KPDOT":            KEY_KPDOT,
+	"102ND":            KEY_102ND,
+	"F11":              KEY_F11,
+	"F12":              KEY_F12,
+	"RO":               KEY_RO,
+	"KATAKANA":         KEY_KATAKANA,
+	"HENKAN":           KEY_HENKAN,
+	"KATAKANAHIRAGANA": KEY_KATAKANAHIRAGANA,
+	"MUHENKAN":         KEY_MUHENKAN,
+	"KPENTER":          KEY_KPENTER,
+	"RIGHTCTRL":        KEY_RIGHTCTRL,
+	"KPSLASH":          KEY_KPSLASH,
+	"SYSRQ":            KEY_SYSRQ,
+	"RIGHTALT":         KEY_RIGHTALT,
+	"HOME":             KEY_HOME,
+	"UP":               KEY_UP,
+	"PAGEUP":           KEY_PAGEUP,
+	"LEFT":             KEY_LEFT,
+	"RIGHT":            KEY_RIGHT,
+	"END":              KEY_END,
+	"DOWN":             KEY_DOWN,
+	"PAGEDOWN":         KEY_PAGEDOWN,
+	"INSERT":           KEY_INSERT,
+	"DELETE":           KEY_DELETE,
+	"POWER":            KEY_POWER,
+	"KPEQUAL":          KEY_KPEQUAL,
+	"PAUSE":            KEY_PAUSE,
+	"HANGUEL":          KEY_HANGUEL,
+	"HANJA":            KEY_HANJA,
+	"YEN":              KEY_YEN,
+	"LEFTMETA":         KEY_LEFTMETA,
+	"RIGHTMETA":        KEY_RIGHTMETA,
+	"COMPOSE":          KEY_COMPOSE,
+	"F13":              KEY_F13,
+	"F14":              KEY_F14,
+	"F15":              KEY_F15,
+	"F16":              KEY_F16,
+	"F17":              KEY_F17,
+	"F18":              KEY_F18,
+	"F19":              KEY_F19,
+	"F20":              KEY_F20,
+	"F21":              KEY_F21,
+	"F22":              KEY_F22,
+	"F23":              KEY_F23,
+	"F24":              KEY_F24,
+}
+
 type inputEvent struct {
 	Time  syscall.Timeval
 	Type  uint16
@@ -176,7 +315,7 @@ type Device struct {
 	fp *os.File
 }
 
-func NewDevice(keys []Key) (*Device, error) {
+func NewDevice(name string, keys []Key) (*Device, error) {
 	fp, err := os.OpenFile("/dev/uinput", syscall.O_WRONLY|syscall.O_NONBLOCK, 0660)
 	if err != nil {
 		return nil, err
@@ -187,7 +326,7 @@ func NewDevice(keys []Key) (*Device, error) {
 	}
 
 	uiud := uinputUserDev{}
-	copy(uiud.Name[:], "octokeyz")
+	copy(uiud.Name[:], name)
 	uiud.ID.Bustype = 0x03 // USB
 	uiud.ID.Version = 4
 

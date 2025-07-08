@@ -1,18 +1,18 @@
 package misterscripts
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/rafaelmartins/mister-macropads/internal/process"
+	"github.com/rafaelmartins/mister-macropads/internal/services"
 )
 
 // mainHandler is the main process run in background. It does all the heavy
 // work to make the macro keyboard work, by calling some backend to do it.
 func mainHandler(args []string) error {
-	logfp, err := os.OpenFile(filepath.Join("/tmp", projectName+".log"), os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+	logfp, err := os.OpenFile(filepath.Join("/tmp", projectName+".log"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 	if err != nil {
 		return err
 	}
@@ -27,9 +27,10 @@ func mainHandler(args []string) error {
 		return err
 	}
 
-	log.Printf("Starting %s ...", projectName)
-	if app == nil {
-		return fmt.Errorf("no app set for %s", projectName)
+	if err := services.Start(projectName); err != nil {
+		return err
 	}
+
+	log.Printf("Starting %s %s ...", projectName, projectVersion)
 	return app(projectName, args)
 }
