@@ -1,8 +1,12 @@
 package config
 
 import (
+	"embed"
 	"errors"
 	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/rafaelmartins/mister-macropads/internal/backends"
@@ -55,4 +59,26 @@ func Load(f string, project string, backend backends.Backend) error {
 		}
 	}
 	return nil
+}
+
+func EnsureSample(efs embed.FS, dir string, proj string, model string) (string, error) {
+	f := filepath.Join(dir, proj+".ini")
+	if _, err := os.Stat(f); err != nil {
+		if !errors.Is(err, fs.ErrNotExist) {
+			return "", err
+		}
+	} else {
+		return f, nil
+	}
+
+	fn := proj + ".ini"
+	if model != "" {
+		fn = proj + "-" + model + ".ini"
+	}
+
+	data, err := efs.ReadFile(fn)
+	if err != nil {
+		return "", err
+	}
+	return f, os.WriteFile(f, data, 0666)
 }

@@ -1,4 +1,5 @@
 /octokeyz
+/*.ini
 *_on.sh
 *_off.sh
 S[0-9][0-9]*

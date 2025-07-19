@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"path/filepath"
 
 	"github.com/rafaelmartins/mister-macropads/internal/backends"
 	"github.com/rafaelmartins/mister-macropads/internal/cleanup"
@@ -23,7 +22,12 @@ func main() {
 		}
 		cleanup.Register(backend)
 
-		if err := config.Load(filepath.Join(configDir, projectName+".ini"), projectName, backend); err != nil {
+		cfg, err := config.EnsureSample(configFS, configDir, projectName, "")
+		if err != nil {
+			return err
+		}
+
+		if err := config.Load(cfg, projectName, backend); err != nil {
 			return err
 		}
 
@@ -42,7 +46,7 @@ func main() {
 
 		backend.Listen()
 		return nil
-	}, configFS)
+	})
 
 	cleanup.Check(misterscripts.Dispatch())
 }

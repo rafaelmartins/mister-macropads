@@ -51,3 +51,10 @@ func (b *Backend) Listen() {
 		cleanup.Check(b.dev.Listen(nil))
 	}
 }
+
+func (b *Backend) GetModel() (string, error) {
+	if b.dev == nil {
+		return "", errors.New("octokeyz: device not connected")
+	}
+	return "", nil
+}

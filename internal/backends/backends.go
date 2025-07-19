@@ -24,6 +24,8 @@ type Backend interface {
 	Close() error
 	Listen()
 
+	GetModel() (string, error)
+
 	SetConfigScreenSection(section *ini.Section) error
 	SetConfigKeypadSection(section *ini.Section) error
 
