@@ -3,10 +3,10 @@ package main
 import (
 	"embed"
 
-	"github.com/rafaelmartins/mister-macropads/internal/backends"
-	"github.com/rafaelmartins/mister-macropads/internal/cleanup"
-	"github.com/rafaelmartins/mister-macropads/internal/config"
-	"github.com/rafaelmartins/mister-macropads/internal/misterscripts"
+	"rafaelmartins.com/p/mister-macropads/internal/backends"
+	"rafaelmartins.com/p/mister-macropads/internal/cleanup"
+	"rafaelmartins.com/p/mister-macropads/internal/config"
+	"rafaelmartins.com/p/mister-macropads/internal/misterscripts"
 )
 
 //go:embed octokeyz.ini

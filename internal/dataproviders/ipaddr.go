@@ -4,7 +4,7 @@ import (
 	"net"
 	"slices"
 
-	"github.com/rafaelmartins/mister-macropads/internal/services"
+	"rafaelmartins.com/p/mister-macropads/internal/services"
 )
 
 var IpAddr IpAddrType

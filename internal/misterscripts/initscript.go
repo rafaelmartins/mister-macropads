@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/rafaelmartins/mister-macropads/internal/cleanup"
-	"github.com/rafaelmartins/mister-macropads/internal/process"
+	"rafaelmartins.com/p/mister-macropads/internal/cleanup"
+	"rafaelmartins.com/p/mister-macropads/internal/process"
 )
 
 // initscriptHandler is `S98{{ projectName }}`. It is called by MiSTer init

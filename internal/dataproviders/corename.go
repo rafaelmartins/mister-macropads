@@ -6,8 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/rafaelmartins/mister-macropads/internal/services"
-	"github.com/rafaelmartins/mister-macropads/internal/services/inotify"
+	"rafaelmartins.com/p/mister-macropads/internal/services"
+	"rafaelmartins.com/p/mister-macropads/internal/services/inotify"
 )
 
 var CoreName CoreNameType

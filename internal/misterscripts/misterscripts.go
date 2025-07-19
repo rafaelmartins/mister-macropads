@@ -9,7 +9,7 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/rafaelmartins/mister-macropads/internal/cleanup"
+	"rafaelmartins.com/p/mister-macropads/internal/cleanup"
 )
 
 var (

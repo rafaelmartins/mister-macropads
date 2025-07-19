@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/rafaelmartins/mister-macropads/internal/process"
+	"rafaelmartins.com/p/mister-macropads/internal/process"
 )
 
 func startProcess() error {

@@ -1,4 +1,4 @@
-module github.com/rafaelmartins/mister-macropads
+module rafaelmartins.com/p/mister-macropads
 
 go 1.24
 

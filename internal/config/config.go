@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rafaelmartins/mister-macropads/internal/backends"
 	"gopkg.in/ini.v1"
+	"rafaelmartins.com/p/mister-macropads/internal/backends"
 )
 
 func Load(f string, project string, backend backends.Backend) error {

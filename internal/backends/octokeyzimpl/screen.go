@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/rafaelmartins/mister-macropads/internal/dataproviders"
+	"rafaelmartins.com/p/mister-macropads/internal/dataproviders"
 )
 
 func (b *Backend) ScreenRender() error {

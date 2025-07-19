@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/rafaelmartins/mister-macropads/internal/backends/octokeyzimpl"
 	"gopkg.in/ini.v1"
+	"rafaelmartins.com/p/mister-macropads/internal/backends/octokeyzimpl"
 )
 
 var reg = []struct {

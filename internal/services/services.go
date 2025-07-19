@@ -4,10 +4,10 @@ import (
 	"errors"
 	"net"
 
-	"github.com/rafaelmartins/mister-macropads/internal/cleanup"
-	"github.com/rafaelmartins/mister-macropads/internal/services/inotify"
-	"github.com/rafaelmartins/mister-macropads/internal/services/ipaddr"
-	"github.com/rafaelmartins/mister-macropads/internal/services/uinput"
+	"rafaelmartins.com/p/mister-macropads/internal/cleanup"
+	"rafaelmartins.com/p/mister-macropads/internal/services/inotify"
+	"rafaelmartins.com/p/mister-macropads/internal/services/ipaddr"
+	"rafaelmartins.com/p/mister-macropads/internal/services/uinput"
 )
 
 var (

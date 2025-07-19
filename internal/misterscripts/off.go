@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/rafaelmartins/mister-macropads/internal/process"
+	"rafaelmartins.com/p/mister-macropads/internal/process"
 )
 
 func stopProcess() error {

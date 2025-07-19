@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rafaelmartins/mister-macropads/internal/services/uinput"
 	"gopkg.in/ini.v1"
+	"rafaelmartins.com/p/mister-macropads/internal/services/uinput"
 	"rafaelmartins.com/p/octokeyz"
 )
 

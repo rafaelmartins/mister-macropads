@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/rafaelmartins/mister-macropads/internal/process"
-	"github.com/rafaelmartins/mister-macropads/internal/services"
+	"rafaelmartins.com/p/mister-macropads/internal/process"
+	"rafaelmartins.com/p/mister-macropads/internal/services"
 )
 
 // mainHandler is the main process run in background. It does all the heavy
